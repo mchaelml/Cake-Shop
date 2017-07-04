@@ -1,0 +1,58 @@
+﻿@model M32COM.Models.Cake
+
+@{
+    ViewBag.Title = "Cake";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Add/Edit Cake</h2>
+
+@using (Html.BeginForm("Save", "Cakes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Price)
+        @Html.TextBoxFor(c => c.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Price)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.Calories)
+        @Html.TextBoxFor(c => c.Calories, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Calories)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.InStock)
+        @Html.TextBoxFor(c => c.InStock, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.InStock)
+    </div>
+
+    <div class="form-group">
+
+        <input type="file" name="imageFile" id="img1" accept="image/gif, image/jpeg, image/png" 
+               onchange="document.getElementById('file_name').value = this.value.split('\\').pop()">
+        <input class="form-control" type="text" name="file_name" id="file_name" required>
+        @Html.ValidationMessageFor(c => c.imageSource)
+    </div>
+
+    @Html.HiddenFor(c => c.Id);
+   // @Html.HiddenFor(c => c);
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+
+<form action="" method="post" enctype="multipart/form-data">
+
+</form>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

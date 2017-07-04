@@ -1,0 +1,109 @@
+﻿@using Microsoft.Ajax.Utilities
+@using M32COM.Models
+@using Microsoft.AspNet.Identity
+@model M32COM.Models.Order
+
+
+@{
+    ViewBag.Title = "Order";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+
+
+<h2 style="text-align:center">Order #@Model.OrderNumber</h2>
+
+
+<table id="cart" class="table table-bordered table-hover">
+
+@*    <thead>*@
+@*        <tr>*@
+@*            <th>Cake Name</th>*@
+@*            <th>Cake Calories</th>*@
+@*            <th>Cake Price</th>*@
+@*            <th>Quantity</th>*@
+@*        </tr>*@
+@*    </thead>*@
+@*    <tbody>*@
+@**@
+@**@
+@*        @{*@
+@*            foreach (var m in Model.cart.ToArray())*@
+@*            {*@
+@*                <tr>*@
+@*                    <td> @m.Name</td>*@
+@*                    <td> @m.Calories</td>*@
+@*                    <td> &pound;@m.Price</td>*@
+@*                    <td> @m.Quantity</td>*@
+@**@
+@*                </tr>*@
+@**@
+@*            }*@
+@*        }*@
+        @*    <td><h4>Total Price : &pound;@Html.Action("getTotalPrice", "Checkout")</h4></td>*@
+
+    <td>
+        <h4>Total Price : &pound;@Model.totalPrice</h4></td>
+
+
+
+@*      </tbody>*@
+
+
+        @*    @if (User.IsInRole(RoleName.CanManageCakes))*@
+        @*    {*@
+        @*        <button class="btn btn-default" type="submit" style="margin: 20px 0px 20px 0px">@Html.ActionLink("Add New", "New", "Movies")</button>*@
+        @**@
+        @*    }*@
+</table>
+&nbsp;
+&nbsp;
+<hr/>
+
+<p><h3> User : @User.Identity.GetUserName()</h3></p>
+<p><h3> Items : @Model.Items</h3></p>
+&nbsp;
+
+<p><h4> Order Date : @Model.orderDate</h4></p>
+<hr/>
+
+
+
+
+    <div class="row">
+        <div class="col-md-4 left">
+            
+                <p>Name : @Model.name</p>
+                <p>Surname : @Model.surname </p>
+                <p>Street Address : @Model.address </p>
+
+                <p>City : @Model.city </p>
+                <p>Post Code : @Model.postCode</p>
+
+            
+        </div>
+    <div class="col-md-4 left">
+            
+
+
+                <p>Full Card Name : @Model.cardName</p>
+
+                <p>Credit Card Number : @Model.creditCardNumber </p>
+                <p>Expiration Month : @Model.expMonth</p>
+                <p>Expiration Year : @Model.expYear</p>
+                <p>CCV : @Model.ccv</p>
+
+            
+        
+        
+    </div>
+        </div>
+<button class="btn btn-default" type="submit" style="margin: 20px 0px 20px 0px">@Html.ActionLink("Continue Shopping", "Index", "Cakes")</button>
+
+<button class="btn btn-default" type="submit" style="margin: 20px 0px 20px 0px">@Html.ActionLink("View Order", "GetOrders", "Order")</button>
+
+
+
+
+<p></p>
+

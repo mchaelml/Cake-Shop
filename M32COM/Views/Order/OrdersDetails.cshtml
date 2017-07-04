@@ -1,0 +1,51 @@
+﻿@model System.Collections.Generic.List<M32COM.Models.Order>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Orders</h2>
+
+@{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Order#</th>
+                <th>User</th>
+                <th>Full Name</th>
+                <th>Items</th>
+                <th>Total Price</th>
+                <th>Address</th>
+                <th>Date</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                foreach (var m in Model)
+                {
+
+                    <tr>
+
+                        <td>@m.OrderNumber</td>
+                        <td>@m.User</td>
+                        <td>@m.name &nbsp;&nbsp; @m.surname</td>
+                        <td>@m.Items</td>
+                        <td>&pound;@m.totalPrice</td>
+                        <td>@m.address &#44;  &nbsp; @m.city &#44; &nbsp; @m.postCode</td>
+                        <td>@m.orderDate</td>
+
+                        @*                                    <td>&pound;@Html.Action("getTotalPrice", "Checkout")</td>*@
+                        @*                                   @foreach (var n in @m.cart)*@
+                        @*                                   {*@
+                        @*                                       <td>@n.Name &nbsp; @n.Quantity &nbsp; @n.Quantity &nbsp; @n.Price</td>*@
+                        @*                                       *@
+                        @*                                   }*@
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

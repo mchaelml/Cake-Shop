@@ -1,0 +1,42 @@
+﻿@using M32COM.Models
+
+<head>
+    <style>
+        .navthisbar {
+            background-color: #127ba3;
+            color: whitesmoke;
+            border-color: #127ba3;
+            border-top-color: rgb(18, 123, 163);
+            border-right-color: rgb(18, 123, 163);
+            border-bottom-color: rgb(18, 123, 163);
+            border-left-color: rgb(18, 123, 163);
+        }
+    </style>
+</head>
+<div class="navbar navbar-inverse navbar-fixed-top navthisbar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("M32COM", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse navthisbar" id="navbarr">
+            <ul class="nav navbar-nav">
+
+                <li>@Html.ActionLink("Cakes", "Index", "Cakes", null, new { @class = "navthisbar" })</li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <li>@Html.ActionLink("Orders", "GetOrders", "Order")</li>
+
+                }
+
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>

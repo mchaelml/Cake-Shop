@@ -1,0 +1,60 @@
+﻿@model M32COM.Models.Customer
+
+@{
+    ViewBag.Title = "Customer Details";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+
+
+<br>
+<table class="table table-bordered table-hover">
+
+    <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>Customer Dicount</th>
+            <th>Customer Subscription Length</th>
+            <th>Customer Subscription Fee</th>
+            <th>Customer Membership</th>
+            @{
+                if (Model.BirthDateTime == null)
+                {
+                   
+                }
+                else
+                {
+                    <th>Customer Birth Date</th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+
+
+        <tr>
+            <td>@Model.Name</td>
+            <td>@Model.MembershipType.DiscountRate</td>
+            <td>@Model.MembershipType.DurationInMonths</td>
+            <td>@Model.MembershipType.SignUpFee</td>
+            <td>@Model.MembershipType.Name</td>
+            @{
+                if (Model.BirthDateTime == null)
+                {
+                    
+                }
+                else
+                {
+                    <td>@Model.BirthDateTime.Value.ToShortDateString()</td>
+                }
+            }
+        </tr>
+
+
+
+    </tbody>
+
+
+
+
+</table>

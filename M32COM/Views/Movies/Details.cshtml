@@ -1,0 +1,59 @@
+﻿@model M32COM.Models.Movie
+
+@{
+    ViewBag.Title = "Movie Details";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<br>
+<table class="table table-bordered table-hover">
+    
+    <thead>
+        <tr>
+            <th>Movie Name</th>
+            <th>Movie Genre</th>
+           
+            <th>In-stock</th>
+            
+            @{
+                if (Model.ReleaseDateTime == null)
+                {
+
+                }
+                else
+                {
+                    <th>Movie Release Date</th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+
+
+        <tr>
+            <td>@Model.Name</td>
+            <td>@Model.MovieGenre.Name</td>
+            <td>@Model.InStock</td>
+          
+         
+            @{
+                if (Model.ReleaseDateTime == null)
+                {
+
+                }
+                else
+                {
+                    <td>@Model.ReleaseDateTime.Value.ToShortDateString()</td>
+                }
+            }
+        </tr>
+
+
+
+    </tbody>
+
+
+
+
+</table>
+

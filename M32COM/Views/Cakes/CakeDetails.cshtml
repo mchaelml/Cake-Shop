@@ -1,0 +1,170 @@
+﻿@using M32COM.Models
+@using Microsoft.Ajax.Utilities
+
+@model M32COM.Models.Cake
+@{
+    ViewBag.Title = "Cakes";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+
+<h2 style="text-align:center">List of Cakes : </h2>
+
+
+<table id="cakes" class="table table-bordered table-hover">
+
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Cake Name</th>
+        <th>Cake Price</th>
+        <th>In Stock</th>
+        <th>Add to Card</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+    @*    @{*@
+    @*        foreach (var m in Model)*@
+    @*        {*@
+    @*            <tr>*@
+    @*                <td>@Html.ActionLink(m.Name, "Edit", "Movies", new { id = m.Id }, null)</td>*@
+    @*                <td>@m.MovieGenre.Name</td>*@
+    @*                <td><button data-movie-id="@m.Id" class="btn-link js-delete">DELETE</button></td>*@
+    @*            </tr>*@
+    @*        }*@
+    @*    }*@
+
+
+
+    </tbody>
+
+
+            @if (User.IsInRole(RoleName.CanManageCakes))
+            {
+                <p align="center" style="color: aliceblue">
+               
+                    @Html.ActionLink("Add New", "New", "Cakes", null, new { @class = "btn btn-primary" })</p>
+
+            }
+</table>
+    
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function() {
+
+            var table = $("#cakes").DataTable({
+                ajax: {
+                    url: "/api/cakes",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "imageSource",
+                        render: function(data)
+                        {
+                            return "<img src=" + data + " width=\"100\" height=\"100\">";
+                        }
+                    },
+                    {
+                        data: "name",
+                        render: function (data, type, c) {
+                            return "<a href='/cakes/edit/" + c.id + "'>" + c.name + "</a>";
+                        }
+
+
+                    },
+                    {
+                        data: "price",
+                        render : function(data) {
+                            return "&pound" + data;
+                        }
+
+                    },
+                    {
+                        data: "inStock"
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button class = 'btn-link js-add' data-cake-id=" + data + ">Add to Card</button>";
+
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class = 'btn-link js-delete' data-cake-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+        });
+
+
+        $("#cakes").on("click",
+            ".js-add",
+            function ()
+            {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to add this cake?",
+                    function (result)
+                    {
+                        if (result)
+                        {
+                            $.ajax(
+                                {
+                                    url: "/api/shoppingcard/" + button.attr("data-cake-id"),
+                                    method: "post",
+                                    success: function ()
+                                    {
+                                        toastr.success("Added to the Cart");
+                                        console.log("success");
+
+                                       // location.reload();
+                                    },
+                                    error : function ()
+                                    {
+                                        toastr.error("Failed to add to the Cart");
+                                        console.log("fail");
+                                    }
+                                });
+
+                        }
+                    });
+
+
+            });
+        $("#cakes").on("click",
+            ".js-delete",
+            function () {
+                var button = $(this);
+                bootbox.confirm("Are you sure you want to delete this cake?",
+                    function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/cakes/" + button.attr("data-cake-id"),
+                                method: "delete",
+                                success: function () {
+
+                                    toastr.success("Deleted");
+                                    console.log("success");
+                                    location.reload();
+                                    //table.row(button.parents("tr")).remove().draw();
+                                }
+                            });
+                        }
+                    });
+
+
+            });
+
+
+    </script>
+}

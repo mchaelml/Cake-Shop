@@ -1,0 +1,42 @@
+﻿@model M32COM.ViewModels.CustomerFormViewModel
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+@using (Html.BeginForm("Save", "Customers"))
+{
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(c => c.Customer.Name)
+        @Html.TextBoxFor(c => c.Customer.Name,new { @class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Customer.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Customer.BirthDateTime)
+        @Html.TextBoxFor(c => c.Customer.BirthDateTime, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Customer.BirthDateTime)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(c => c.Customer.MembershipTypeId)
+        @Html.DropDownListFor(c => c.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes,"id","Name"),"----Select Membership Type----", new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Customer.MembershipTypeId)
+    </div>
+
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(c => c.Customer.IsSubscribedToNewsLetter) Subscribe to Newsletter?
+        </label>
+        
+    
+    </div>
+    @Html.HiddenFor(c => c.Customer.Id);
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

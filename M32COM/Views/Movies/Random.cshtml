@@ -1,0 +1,40 @@
+﻿@model M32COM.ViewModels.RandomMovieViewModel
+
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var XXX = Model.Customer.Count > 1 ? "popular" : null;
+}
+
+<style>
+   .popular{ 
+            color : red;
+    }
+</style>
+
+
+<h2 class=@XXX>@Model.Movie.Name</h2>
+<h2>@Model.Customer[0].Name</h2>
+<h2>@Model.Customer[1].Name</h2>
+
+
+@if (Model.Customer.Count == 0)
+{
+    <p>No Customers to show</p>
+}
+else
+{
+
+
+    <ul>
+        @foreach (var c in Model.Customer)
+        {
+            <li>@c.Name</li>
+        }
+    </ul>
+}
+    
+

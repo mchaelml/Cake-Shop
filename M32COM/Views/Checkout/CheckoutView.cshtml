@@ -1,0 +1,185 @@
+﻿@using Microsoft.Ajax.Utilities
+@using M32COM.Models
+@using Microsoft.AspNet.Identity
+@*
+    model IEnumerable<M32COM.Models.ShoppingCard>
+*@
+@using M32COM.Models;
+@model M32COM.Models.Order
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center">Checkout</h2>
+
+
+<table id="cart" class="table table-bordered table-hover">
+
+    <thead>
+        <tr>
+            <th>Cake Name</th>
+            <th>Cake Price</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+@*    @foreach (var m in )*@
+@*                           {*@
+@*                                <tr>*@
+@*                                    <td> @m.Name </td>*@
+@*                                    <td> &pound;@m.Price</td>*@
+@*                                    *@
+@*                                    <td>@m.Quantity</td>    *@
+@*                                    </tr>*@
+@*              *@
+@*          }*@
+
+    </tbody>
+</table>
+@section scripts
+{
+@Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function() {
+            var table = $("#cart").DataTable({
+                "paging": false,
+                "ordering": false,
+                "info": false,
+                ajax: {
+                    url: "/api/shoppingCard",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name"
+
+
+                    },
+                    {
+                        data: "price",
+                        render: function (data) {
+                            return "&pound" + data;
+                        }
+                    },
+                    {
+                        data: "quantity"
+
+                    }
+                ]
+            });
+        });
+    </script>
+}
+
+
+
+<p><h4>Total Price : &pound;@Html.Action("getTotalPrice", "Checkout")</h4></p>
+<p></p>
+<center>
+    <p><h3>Delivery and Payment Information</h3></p>
+</center>
+
+@using (Html.BeginForm("Save", "Order", FormMethod.Post, new { enctype = "multipart/form-data" })) // specify method
+{
+    @Html.ValidationSummary()
+    <div class ="container">
+        <table class="table table-responsive" style="-moz-border-radius: 10px;
+-webkit-border-radius: 10px; border: black solid 1px; ">
+           
+@*            style="width: 100%; border-radius: 25px; padding: 10px; margin: 10px"*@
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(o => o.name)
+                            @Html.TextBoxFor(o => o.name, new {@class = "form-control", maxlength = 16, minlength = 2})
+                            @Html.ValidationMessageFor(o => o.name)
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(o => o.creditCardNumber)
+                            @Html.TextBoxFor(c => c.creditCardNumber, new {@class = "form-control", size = 16, maxlength = 16, minlength = 16})
+                            @Html.ValidationMessageFor(c => c.creditCardNumber)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(o => o.surname)
+                            @Html.TextBoxFor(c => c.surname, new {@class = "form-control", maxlength = 16, minlength = 2})
+                            @Html.ValidationMessageFor(c => c.surname)
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(o => o.cardName)
+                            @Html.TextBoxFor(c => c.cardName, new {@class = "form-control", maxlength = 25, minlength = 5})
+                            @Html.ValidationMessageFor(c => c.cardName)
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(o => o.address)
+                            @Html.TextBoxFor(c => c.address, new {@class = "form-control", minlength = 7, maxlength = 35})
+                            @Html.ValidationMessageFor(c => c.address)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(o => o.city)
+                            @Html.TextBoxFor(c => c.city, new {@class = "form-control", minlength = 3, maxlength = 25})
+                            @Html.ValidationMessageFor(c => c.city)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.Label("Expiration Date")
+                            <p>@Html.TextBoxFor(o => o.expMonth, new {@class = "form-control-small", size = 2, maxlength = 2})/@Html.TextBoxFor(o => o.expYear, new {@class = "form-control-small", size = 2, maxlength = 2})</p>
+                            @Html.ValidationMessageFor(c => c.expMonth)
+                            @Html.ValidationMessageFor(c => c.expYear)
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(o => o.postCode)
+                            @Html.TextBoxFor(c => c.postCode, new {@class = "form-control", maxlength = 7})
+                            @Html.ValidationMessageFor(c => c.postCode)
+                        </div>
+                    </td>
+                    <td><input type="text" hidden size="10"/></td>
+                    <td>
+                        <div class="form-group">
+                            @Html.LabelFor(o => o.ccv)
+                            @Html.TextBoxFor(c => c.ccv, new {@class = "form-control", size = 3, maxlength = 3, minlength = 3})
+                            @Html.ValidationMessageFor(c => c.ccv)
+                        </div>
+                    </td>
+                </tr>
+           
+        </table>
+        </div>
+
+
+    @Html.HiddenFor(c => c.Id);
+    @Html.HiddenFor(c => c.User)
+
+
+    // @Html.HiddenFor(c => c);
+    @Html.AntiForgeryToken()
+    <p></p>
+    <p><button class="btn btn-default" type="submit" style="margin: 20px 0px 20px 0px">Submit Order</button></p>
+}
+
+@*/Html.ActionLink("Submit Order", "Index", "Order")*@
